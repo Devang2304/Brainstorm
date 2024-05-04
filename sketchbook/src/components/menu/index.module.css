@@ -1,0 +1,42 @@
+.menuContainer {
+    position: absolute;
+    padding: 1px 5px;
+    display: flex;
+    justify-content: space-between;
+    width: 25%; 
+    left: 50%;
+    top: 10px;
+    border: 1px solid ;
+    border-radius: 0.375rem; 
+    transform: translateX(-50%);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    /* background-color: ;  */
+
+}
+
+.menuContainer .iconWrapper {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 2.5rem; 
+    width: 2.5rem;
+    border-radius: 0.375rem; 
+
+}
+
+.menuContainer .iconWrapper:hover,
+.menuContainer .iconWrapper.active {
+    /* background-color: ;  */
+}
+
+.menuContainer .icon {
+    /* color: ;  */
+    font-size: 20px;
+}
+
+@media screen and (max-width: 640px) {
+    .menuContainer {
+        width: 75%; 
+    }
+}
