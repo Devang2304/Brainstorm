@@ -1,42 +1,25 @@
 .menuContainer {
-    position: absolute;
-    padding: 1px 5px;
-    display: flex;
-    justify-content: space-between;
-    width: 25%; 
-    left: 50%;
-    top: 10px;
-    border: 1px solid ;
-    border-radius: 0.375rem; 
+    @apply absolute px-5 py-1 flex justify-between w-1/4 left-1/2 top-10 rounded-md;
+    border: 1px solid theme('colors.border1');
     transform: translateX(-50%);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
-    /* background-color: ;  */
+    box-shadow: theme('colors.shadow1');
+    background-color: theme('colors.background1');
 
-}
+    .iconWrapper {
+        @apply cursor-pointer flex justify-center items-center h-10 w-10 rounded-md;
 
-.menuContainer .iconWrapper {
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 2.5rem; 
-    width: 2.5rem;
-    border-radius: 0.375rem; 
-
-}
-
-.menuContainer .iconWrapper:hover,
-.menuContainer .iconWrapper.active {
-    /* background-color: ;  */
-}
-
-.menuContainer .icon {
-    /* color: ;  */
-    font-size: 20px;
+        &:hover, &.active {
+            background-color: theme('colors.text2');
+        }
+        .icon {
+            color: theme('colors.text1');
+            font-size: 20px;
+        }
+    }
 }
 
 @media screen and (max-width: 640px) {
     .menuContainer {
-        width: 75%; 
+        @apply w-3/4;
     }
 }
