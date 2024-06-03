@@ -1,12 +1,32 @@
-import React, { useLayoutEffect } from 'react';
+import React, { act, useLayoutEffect } from 'react';
 import { useRef,useEffect } from 'react';
 import { useSelector,useDispatch } from 'react-redux';
+import { MENU_ITEMS } from '@/constants'
+import { menuItemClick,actionItemClick } from '@/slice/menuSlice';
+
 
 const  Board = () => {
+    const dispatch=useDispatch();
     const canvasRef=useRef(null);
     const shouldDraw=useRef(false);
-    const activeMenuItem=useSelector((state)=>state.menu.activeMenuItem);
+    const {activeMenuItem,actionMenuItem}=useSelector((state)=>state.menu);
     const {color,size}=useSelector((state)=>state.toolbox[activeMenuItem]);
+
+    useEffect(()=>{
+      if(!canvasRef.current) return;
+      const canvas = canvasRef.current;
+      const context=canvas.getContext('2d');
+
+      if(actionMenuItem===MENU_ITEMS.DOWNLOAD){
+        const URL = canvas.toDataURL();
+        const anchor=document.createElement('a');
+        anchor.href=URL;
+        anchor.download='sketch.png';
+        anchor.click();
+        dispatch(actionItemClick(null));
+        // console.log(URL);
+      }
+    },[actionMenuItem]);
 
     useEffect(() => {
       if(!canvasRef.current) return;
@@ -19,7 +39,7 @@ const  Board = () => {
       }
       changeConfig();
     },[color,size])
-    //mount
+    // before browser render/paint
     useLayoutEffect(() => {
       if(!canvasRef.current) return;
       const canvas = canvasRef.current;
@@ -30,10 +50,19 @@ const  Board = () => {
       canvas.height=window.innerHeight;
 
 
+      const beginPath=(x,y)=>{
+        context.beginPath(); // initialise
+        context.moveTo(x, y);
+      }
+
+      const drawLine=(x,y)=>{
+        context.lineTo(x, y); //draw
+        context.stroke();
+      }
+      
       const handleMouseDown=(e)=>{
         shouldDraw.current=true;
-        context.beginPath(); // initialise
-        context.moveTo(e.clientX, e.clientY);
+        beginPath(e.clientX, e.clientY);
       }
       const handleMouseUp=(e)=>{
         shouldDraw.current=false;
@@ -41,8 +70,7 @@ const  Board = () => {
       }
       const handleMouseMove=(e)=>{
         if(!shouldDraw.current) return;
-        context.lineTo(e.clientX, e.clientY); //draw
-        context.stroke();
+        drawLine(e.clientX, e.clientY);
       }
 
       canvas.addEventListener('mousedown',handleMouseDown);
