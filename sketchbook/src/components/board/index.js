@@ -3,7 +3,7 @@ import { useRef,useEffect } from 'react';
 import { useSelector,useDispatch } from 'react-redux';
 import { MENU_ITEMS } from '@/constants'
 import { menuItemClick,actionItemClick } from '@/slice/menuSlice';
-
+import { socket } from '@/socket';
 
 const  Board = () => {
     const dispatch=useDispatch();
@@ -40,11 +40,20 @@ const  Board = () => {
       const canvas = canvasRef.current;
       const context=canvas.getContext('2d');
 
-      const changeConfig=()=>{
+      const changeConfig=(color,size)=>{
         context.strokeStyle=color;
         context.lineWidth=size;
       }
-      changeConfig();
+      
+      const handleChangeConfig=(config)=>{
+        changeConfig(config.color, config.size);
+        console.log("conifg",config);
+      }
+      changeConfig(color,size);
+      socket.on('changeConfig',handleChangeConfig);
+      return ()=>{
+        socket.off('changeConfig',handleChangeConfig);
+      }
     },[color,size])
     // before browser render/paint
     useLayoutEffect(() => {
@@ -70,6 +79,7 @@ const  Board = () => {
       const handleMouseDown=(e)=>{
         shouldDraw.current=true;
         beginPath(e.clientX, e.clientY);
+        socket.emit('beginPath',{x:e.clientX,y:e.clientY});
       }
       const handleMouseUp=(e)=>{
         shouldDraw.current=false;
@@ -80,15 +90,34 @@ const  Board = () => {
       const handleMouseMove=(e)=>{
         if(!shouldDraw.current) return;
         drawLine(e.clientX, e.clientY);
+        socket.emit('drawLine',{x:e.clientX,y:e.clientY});
+      }
+
+      const handleBeginPath=(path)=>{
+        beginPath(path.x, path.y);
+      }
+
+      const handleDrawLine=(line)=>{
+        drawLine(line.x, line.y);
       }
 
       canvas.addEventListener('mousedown',handleMouseDown);
       canvas.addEventListener('mouseup', handleMouseUp);
       canvas.addEventListener('mousemove', handleMouseMove);
+
+      socket.on('beginPath',handleBeginPath);
+      socket.on('drawLine',handleDrawLine);
+
+      socket.on("connect",()=>{
+        console.log("client connected");
+      });
       return ()=>{
         canvas.removeEventListener('mousedown', handleMouseDown);
         canvas.removeEventListener('mouseup', handleMouseUp);
         canvas.removeEventListener('mousemove', handleMouseMove);
+
+        socket.off('beginPath',handleBeginPath);
+        socket.off('drawLine',handleDrawLine);
       }
       //unmount
     },[]);
