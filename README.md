@@ -1,6 +1,6 @@
 # Brainstorm
 
-Brainstorm is a collaborative whiteboard application that allows users to draw, share ideas, and collaborate in real-time. Built with modern technologies such as Next.js, React, NodeJS, express.js and Socket.io for real-time communication, Brainstorm offers a seamless and interactive experience for remote teams, educators, and anyone needing a virtual whiteboard.
+Brainstorm is an online whiteboard application that allows users to draw, work on ideas. Built with modern technologies such as Next.js, React, Tailwind, Brainstorm offers a seamless and great experience for educators, and anyone needing a virtual whiteboard.
 
 |      Board             |   Drawing   |
 | :--------------------: | :---------------------: |
@@ -15,13 +15,12 @@ Brainstorm is a collaborative whiteboard application that allows users to draw, 
 
 ## Introduction
 
-Brainstorm is designed to facilitate real-time collaboration with an intuitive whiteboard interface. Whether you're brainstorming ideas, teaching a class, or collaborating on a project, Brainstorm provides the tools you need to communicate visually and effectively.
+Brainstorm is designed to provide an intuitive whiteboard interface. Whether you're brainstorming ideas, teaching a class, or working on a project, Brainstorm provides the tools you need to brainstrom effectively.
 
 ## Features
 
-- **Real-Time Collaboration**: Work together with others in real-time, with instant updates and low latency.
 - **Interactive Drawing Tools**: A variety of drawing tools including pens,colors and their size.
-- **Multi-User Support**: Collaborate with multiple users simultaneously.
+- **Different Functionalities**: Different functionalities like Undo,Redo, download and erasing 
 
 ## Tech Stack
 
@@ -30,12 +29,7 @@ Brainstorm is designed to facilitate real-time collaboration with an intuitive w
     - React
     - Tailwind CSS
 
-- **Back End**:
-    - Node.js
-    - express.js
 
-- **Real-Time Communication**:
-    - Socket.io
 
 
 
